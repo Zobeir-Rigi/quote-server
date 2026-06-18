@@ -1,5 +1,5 @@
 const fetchQuote = async () => {
-    const response = await fetch("http://127.0.0.1:3000/")
+    const response = await fetch("https://zobeir-rigi-quote-serverr.hosting.codeyourfuture.io/")
     const data = await response.json()
     const q = document.getElementById("quote");
     q.textContent = data.quote
