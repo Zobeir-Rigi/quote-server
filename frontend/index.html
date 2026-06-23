@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Random Quote</title>
-       </head>
-    <body>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Random Quote</title>
+</head>
+
+<body>
 
     <h1>Random Quote</h1>
 
     <p id="quote">Loading...</p>
     <p id="author"></p>
 
-    <button id="new-quote">New Quote</button>
+    <button id="new-quote">Generate New Random Quote</button>
+
+    <h1>Add a new quote</h1>
+    <div id="user-feedback"></div>
+    <textarea id="text-area" placeholder="enter the quote">
+        </textarea>
+    <input id="new-author" placeholder="author">
+    <button onclick="postNewQuote()">submit</button>
+
 
     <script src="frontend.js"></script>
 
 </body>
+
 </html>

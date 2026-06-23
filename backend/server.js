@@ -25,32 +25,57 @@ app.get("/", (req, res) => {
   const quote = randomQuote();
   res.json(quote);
 });
-
 app.post("/", (req, res) => {
+  console.log("POST request received"); 
+
   const bodyBytes = [];
+
   req.on("data", chunk => bodyBytes.push(...chunk));
+
   req.on("end", () => {
     const bodyString = String.fromCharCode(...bodyBytes);
+
+    console.log(" Raw body:", bodyString); 
+
     let body;
     try {
       body = JSON.parse(bodyString);
     } catch (error) {
-      console.error(`Failed to parse body ${bodyString} as JSON: ${error}`);
-      res.status(400).send("Expected body to be JSON.");
+      console.error("Invalid JSON");
+      res.status(400).send("Expected JSON.");
       return;
     }
-    if (typeof body != "object" || !("quote" in body) || !("author" in body)) {
-      console.error(`Failed to extract quote and author from post body: ${bodyString}`);
-      res.status(400).send("Expected body to be a JSON object containing keys quote and author.");
+
+    console.log("Parsed body:", body); 
+
+    if (typeof body !== "object" || !body.quote || !body.author) {
+      res.status(400).send("Missing quote or author");
       return;
     }
+
+    if (
+      typeof body.quote !== "string" ||
+      typeof body.author !== "string" ||
+      body.quote.trim() === "" ||
+      body.author.trim() === ""
+    ) {
+      console.log("Empty values received");
+      res.status(400).send("Quote and author must not be empty");
+      return;
+    }
+
     quotes.push({
       quote: body.quote,
       author: body.author,
     });
+
+    console.log("Quote added:", body); 
+    console.log("All quotes:", quotes); 
+
     res.send("ok");
   });
 });
+``
 
 app.listen(port, () => {
   console.error(`Quote server listening on port ${port}`);
